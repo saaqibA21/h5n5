@@ -1,0 +1,13 @@
+{
+  "n_samples": 212,
+  "n_pos": 106,
+  "n_neg": 106,
+  "kmer_k": 6,
+  "svd_components": 8,
+  "classical_acc": 0.9767441860465116,
+  "quantum_acc": 0.9069767441860465,
+  "classical_best_params": {
+    "C": 100,
+    "gamma": 3.0
+  }
+}

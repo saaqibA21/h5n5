@@ -1,0 +1,13 @@
+numpy==1.26.4
+pandas==2.2.2
+scikit-learn==1.5.1
+biopython==1.83
+
+# Qiskit stack (quantum kernel SVM)
+qiskit==1.2.4
+qiskit-aer==0.14.2
+qiskit-machine-learning==0.7.2
+
+python-dotenv==1.0.1
+tqdm==4.66.5
+joblib==1.4.2
