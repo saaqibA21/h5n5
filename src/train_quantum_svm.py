@@ -4,13 +4,12 @@ import numpy as np
 from qiskit.circuit.library import ZZFeatureMap
 from qiskit_machine_learning.kernels import FidelityQuantumKernel
 from qiskit_machine_learning.algorithms import QSVC
-
+from sklearn.calibration import CalibratedClassifierCV
 
 @dataclass
 class QuantumResult:
-    model: QSVC
+    model: CalibratedClassifierCV | QSVC
     feature_map_reps: int
-
 
 def train_quantum_svm(
     X_train: np.ndarray,
@@ -18,50 +17,38 @@ def train_quantum_svm(
     n_qubits: int
 ) -> QuantumResult:
     """
-    Quantum Support Vector Classifier using a fidelity-based quantum kernel.
-
-    Notes:
-    - Feature dimension MUST equal number of qubits.
-    - Uses a version-safe kernel constructor (works across Qiskit releases).
-    - Runs on quantum simulator backend implicitly.
+    Quantum Support Vector Classifier with:
+    - Deepened ZZFeatureMap (reps=3) for better feature extraction.
+    - Calibrated probabilities using Platt Scaling (Sigmoid) for higher confidence.
     """
 
-    # --------------------------------------------------
-    # Quantum Feature Map
-    # --------------------------------------------------
+    # Optimized Quantum Feature Map with increased depth
     feature_map = ZZFeatureMap(
         feature_dimension=n_qubits,
-        reps=2,
+        reps=3,
         entanglement="full"
     )
 
-    # --------------------------------------------------
-    # Fidelity Quantum Kernel (VERSION-SAFE)
-    # --------------------------------------------------
-    try:
-        # Newer Qiskit ML versions
-        from qiskit.primitives import Sampler
-        sampler = Sampler()
-        quantum_kernel = FidelityQuantumKernel(
-            feature_map=feature_map,
-            sampler=sampler
-        )
-    except TypeError:
-        # Older Qiskit ML versions (no sampler argument)
-        quantum_kernel = FidelityQuantumKernel(
-            feature_map=feature_map
-        )
+    # Fidelity Quantum Kernel
+    quantum_kernel = FidelityQuantumKernel(
+        feature_map=feature_map
+    )
 
-    # --------------------------------------------------
-    # Quantum SVM (QSVC)
-    # --------------------------------------------------
-    model = QSVC(
+    # Base QSVC implementation
+    base_qsvc = QSVC(
         quantum_kernel=quantum_kernel
+    )
+
+    # Wrap in Calibrated Classifier to get high-confidence probabilities
+    model = CalibratedClassifierCV(
+        base_qsvc, 
+        cv=3, 
+        method='sigmoid'
     )
 
     model.fit(X_train, y_train)
 
     return QuantumResult(
         model=model,
-        feature_map_reps=2
+        feature_map_reps=3
     )

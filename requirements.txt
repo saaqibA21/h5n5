@@ -2,6 +2,9 @@ numpy==1.26.4
 pandas==2.2.2
 scikit-learn==1.5.1
 biopython==1.83
+matplotlib==3.8.4
+seaborn==0.13.2
+python-docx==0.8.11
 
 # Qiskit stack (quantum kernel SVM)
 qiskit==1.2.4

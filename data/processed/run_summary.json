@@ -1,13 +1,22 @@
 {
-  "n_samples": 212,
-  "n_pos": 106,
-  "n_neg": 106,
-  "kmer_k": 6,
-  "svd_components": 8,
-  "classical_acc": 0.9767441860465116,
-  "quantum_acc": 0.9069767441860465,
-  "classical_best_params": {
-    "C": 100,
-    "gamma": 3.0
-  }
+  "h5n5": {
+    "n_samples": 291,
+    "n_pos": 112,
+    "n_neg": 179,
+    "kmer_k": 6,
+    "svd_components": 8,
+    "classical_acc": 0.9556,
+    "quantum_acc": 0.9889,
+    "rf_acc": 0.9667,
+    "nb_acc": 0.8833,
+    "dt_acc": 0.9167
+  },
+  "pima": {
+    "classical_acc": 0.7727,
+    "quantum_acc": 0.8312,
+    "rf_acc": 0.7792,
+    "nb_acc": 0.7532,
+    "dt_acc": 0.7208
+  },
+  "timestamp": "2026-04-05T22:50:00Z"
 }
