@@ -5,6 +5,8 @@ biopython==1.83
 matplotlib==3.8.4
 seaborn==0.13.2
 python-docx==0.8.11
+streamlit==1.36.0
+plotly==5.22.0
 
 # Qiskit stack (quantum kernel SVM)
 qiskit==1.2.4
